@@ -20,5 +20,13 @@ class Program
 
         job1.Display();
         job2.Display();
+
+        Resume myResume = new Resume();
+
+        myResume._name = "Daniel Davis";
+        myResume._jobs.Add(job1);
+        myResume._jobs.Add(job2);
+
+        myResume.Display();
     }
 }
