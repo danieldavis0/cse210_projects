@@ -13,7 +13,7 @@ public class Word
         _isHidden = true;
     }
 
-    public void Show()
+    private void Show()
     {
         _isHidden = false;
     }
@@ -35,8 +35,7 @@ public class Word
         string text = "";
         if (_isHidden)
         {
-            string cleanText = _text.TrimEnd(new char[] {'.', '!', '?', ';', ':', ','});
-            int length = cleanText.Length;
+            int length = _text.Length;
             for (int i = 0; i < length; i++)
             {
                 text += "_";

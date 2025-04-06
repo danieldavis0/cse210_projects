@@ -1,5 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
-
 public class Reference
 {
     private string _book;
@@ -33,55 +31,36 @@ public class Reference
         {
             return $"{_book} {_chapter}:{_verse}-{_endVerse}";
         }
-        
+
     }
 
-    public void LoadScripture(string userBook, string userReference)
+    public string GetScriptureText()
     {
-        
-        string[] reference = userReference.Split(":");
-        string chapter = reference[0];
-        string userVerse = reference[1];
         string fullReference;
-        
-
-        if (userVerse.Contains("-"))
-        {
-            string[] verses = userVerse.Split("-");
-            int verse = Int32.Parse(verses[0]);
-            int endVerse = Int32.Parse(verses[1]);
-            _verse = verse;
-            _endVerse = endVerse;
-            userReference = $"{userBook} {chapter}:{verse}";
-            int verseAmount = endVerse - verse;
-        }
-
-        else
-        {
-            int verse = Int32.Parse(userVerse);
-            _verse = verse;
-            userReference = $"{userBook} {chapter}:{verse}";
-        }
-        
+        string scriptureText = "";
+        string userReference = $"{_book} {_chapter}:{_verse}";
+        int firstVerse = _verse;
+        int lastVerse = _endVerse;
         string[] lines = System.IO.File.ReadAllLines("scriptures.txt");
-
-        
 
         foreach (string line in lines)
         {
-            
-            
-            
             string[] parts = line.Split("     ");
-
             fullReference = parts[0];
-
             if (userReference == fullReference)
             {
-                string scriptureText = parts[1];
-                Console.WriteLine(scriptureText);
+                if (firstVerse == lastVerse)
+                {
+                    scriptureText += $"{parts[1]} ";
+                }
+                else if (firstVerse < lastVerse)
+                {
+                    scriptureText += $"{parts[1]} ";
+                    firstVerse += 1;
+                    userReference = $"{_book} {_chapter}:{firstVerse}";
+                }
             }
-            
         }
+        return scriptureText;
     }
 }
